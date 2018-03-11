@@ -42,7 +42,7 @@
         function() {
           $.ajax({
             type: 'POST',
-            url: "ok.php",
+            url: "insertconn.php",
             data: "name="+name+"&password="+password,
               success: function(data) {
                   if(data.result == 1) {
@@ -50,7 +50,7 @@
                       console.log(data);
                       console.log("Sukses!");
                   } else {
-                      swal("Oops", "Dicka esht gabim!", "error");
+                      swal("Oops", "Dicka esht gabim, Provoni Perseri!", "error");
                       console.log(data);
                       console.log("Error!");
                 }
