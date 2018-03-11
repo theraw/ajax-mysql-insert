@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script data-require="sweet-alert@*" data-semver="0.4.2" src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.js"></script>
+    
+    
+    <form name="user_form" method="post" action="#">
+     <table border="1" align="center" cellspacing="5" cellpadding="5">
+        <tr>
+            <td>Name</td>
+            <td><input type="text" name="name" id="name"></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" name="password" id="password"></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><input type="button" name="submit" value="Submit" onclick="order();"></td>
+        </tr>
+     </table>
+    </form>
+    
+
+<script>
+      $('input.submit').click(function() {
+        var keys = $(this).attr("colspan");
+        order(colspan);
+      });
+      function order(colspan) {
+        var name = $("#name").val();
+        var password = $("#password").val();
+        swal({
+          title: "Jeni i sigurt?", 
+          text: "Jeni i sigurt qe doni te porosisni kte pronotim?", 
+          type: "warning",
+          showCancelButton: true,
+          closeOnConfirm: false,
+          confirmButtonText: "Po!",
+          confirmButtonColor: "#33cc33"
+        }, 
+        function() {
+          $.ajax({
+            type: 'POST',
+            url: "ok.php",
+            data: "name="+name+"&password="+password,
+              success: function(data) {
+                  if(data.result == 1) {
+                      swal("Sukses!", "Ju keni prenotuar me sukses!", "success");
+                      console.log(data);
+                      console.log("Sukses!");
+                  } else {
+                      swal("Oops", "Dicka esht gabim!", "error");
+                      console.log(data);
+                      console.log("Error!");
+                }
+            }
+          })
+        });
+    }
+</script>
+    
+</html>
