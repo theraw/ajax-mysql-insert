@@ -1,63 +1,59 @@
 <!DOCTYPE html>
 <html>
-    <link data-require="sweet-alert@*" data-semver="0.4.2" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script data-require="sweet-alert@*" data-semver="0.4.2" src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/0.4.2/sweet-alert.min.js"></script>
+    <link rel="stylesheet" href="/modules/sweetalert2/dist/sweetalert2.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" async></script>
     
-    
-    <form name="user_form" method="post" action="#">
-     <table border="1" align="center" cellspacing="5" cellpadding="5">
-        <tr>
-            <td>Name</td>
-            <td><input type="text" name="name" id="name"></td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td><input type="password" name="password" id="password"></td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center"><input type="button" name="submit" value="Submit" onclick="order();"></td>
-        </tr>
-     </table>
-    </form>
+
+            <form name='user_form' method='post' action='#'>
+                  <input type='hidden' name='getid' id='getid' value='<?php echo $row['privatekey']; ?>'>
+                  <input type='button' class='btn btn-primary' name='Info' value='Info' onclick='cinfo();'>
+            </form>
     
 
 <script>
-      $('input.submit').click(function() {
-        var keys = $(this).attr("colspan");
-        order(colspan);
-      });
-      function order(colspan) {
-        var name = $("#name").val();
-        var password = $("#password").val();
+      function cinfo(keys) {
+        var getid = $("#getid").val();
         swal({
-          title: "Jeni i sigurt?", 
-          text: "Jeni i sigurt qe doni te porosisni kte pronotim?", 
+          title: 'Jeni i sigurt?', 
+          text: "Jeni i sigurt qe doni te shfaqni infot e klientit?", 
           type: "warning",
           showCancelButton: true,
-          closeOnConfirm: false,
-          confirmButtonText: "Po!",
-          confirmButtonColor: "#33cc33"
-        }, 
-        function() {
-          $.ajax({
-            type: 'POST',
-            url: "insertconn.php",
-            data: "name="+name+"&password="+password,
-              success: function(data) {
-                  if(data.result == 1) {
-                      swal("Sukses!", "Ju keni prenotuar me sukses!", "success");
-                      console.log(data);
-                      console.log("Sukses!");
-                  } else {
-                      swal("Oops", "Dicka esht gabim, Provoni Perseri!", "error");
-                      console.log(data);
-                      console.log("Error!");
-                }
+          confirmButtonColor: '#33cc33',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'PO!',
+          cancelButtonText: 'JO!',
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          buttonsStyling: true,
+          reverseButtons: true
+          }).then(function (result) {
+            if (result.value) {
+             $.ajax({
+               type: 'POST',
+               url: "/includes/kinfo.php",
+               data: {id: getid},
+                 success: function(data) {
+                     if(!$.trim(data)) {
+                         swal.DismissReason.cancel;
+                         swal("Cancelled", "Dicka esht gabim, Provoni Perseri!", "error");
+                         console.log("Error!");
+                     } else {
+                         swal("Sukses!", data, "success");
+                         console.log(data);
+                         console.log("Sukses!");
+                   }
+               }
+             })
+            } else if (result.dismiss === swal.DismissReason.close) {
+              swal(
+                'Cancelled',
+                ':)',
+                'error'
+              )
             }
-          })
         });
-    }
+  }
 </script>
     
+    <script src="/modules/sweetalert2/dist/sweetalert2.min.js" async></script>
 </html>
