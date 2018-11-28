@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.29.2/sweetalert2.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.29.2/sweetalert2.min.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     
 
             <form name='user_form' method='post' action='#'>
-                  <input type='hidden' name='getid' id='getid' value="<?php echo $row['privatekey']; ?>">
+                  <input type='hidden' name='getid' id='getid' value="12345">
                   <input type='button' class='btn btn-primary' name='Info' value='Info' onclick='cinfo();'>
             </form>
     
@@ -13,33 +13,28 @@
 <script>
       function cinfo(keys) {
         var getid = $("#getid").val();
-        swal({
-          title: 'Jeni i sigurt?', 
-          text: "Jeni i sigurt qe doni te shfaqni infot e klientit?", 
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: '#33cc33',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'PO!',
-          cancelButtonText: 'JO!',
-          confirmButtonClass: 'btn btn-success',
-          cancelButtonClass: 'btn btn-danger',
-          buttonsStyling: true,
-          reverseButtons: true
-          }).then(function (result) {
+        
+swal({
+  title: 'Reply to your ticket',
+  html: '<textarea rows="10" cols="50" id="replyinput"></textarea>',
+  showCancelButton: true,
+  confirmButtonText: 'Send',
+  showLoaderOnConfirm: false,
+}).then(function (result) {
+    const inmsg = document.getElementById('replyinput').value;
             if (result.value) {
              $.ajax({
                type: 'POST',
-               url: "/includes/kinfo.php",
-               data: {id: getid},
+               url: "kinfo",
+               data: {tid: getid, msg: inmsg},
                  success: function(data) {
                      if(!$.trim(data)) {
-                         swal("Cancelled", "Dicka esht gabim, Provoni Perseri!", "error");
+                         swal("Cancelled", "Something is wrong, Please try Again!", "error");
                          console.log("Error!");
                      } else {
                          swal("Sukses!", data, "success");
                          console.log(data);
-                         console.log("Sukses!");
+                         console.log("Success!");
                    }
                }
              })
@@ -51,6 +46,7 @@
               )
             }
         });
+        
   }
 </script>
     
