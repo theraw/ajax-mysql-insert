@@ -8,14 +8,14 @@ swal({
   title: 'Create New Ticket',
   html: 
   '<input id="subject" placeholder="Ticket Subject" class="swal2-input">' +
-  '<textarea rows="10" cols="40" id="replyinput"></textarea>' +
+  '<textarea rows="10" cols="40" id="message"></textarea>' +
   '<select id="category" class="swal2-input"><option>General Support</option><option>Bug Support</option></select>',
   showCancelButton: true,
   confirmButtonText: 'Send',
   showLoaderOnConfirm: false,
 }).then(function (result) {
     const subject = document.getElementById('subject').value;
-    const inmsg   = document.getElementById('replyinput').value;
+    const inmsg   = document.getElementById('message').value;
     const cat     = document.getElementById('category').value;
             if (result.value) {
              $.ajax({
