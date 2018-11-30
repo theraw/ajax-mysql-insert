@@ -25,7 +25,7 @@ swal({
             if (result.value) {
              $.ajax({
                type: 'POST',
-               url: "kinfo",
+               url: "ok.php",
                data: {tid: getid, msg: inmsg},
                  success: function(data) {
                      if(!$.trim(data)) {
