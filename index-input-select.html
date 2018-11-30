@@ -14,13 +14,14 @@ swal({
   confirmButtonText: 'Send',
   showLoaderOnConfirm: false,
 }).then(function (result) {
-    const inmsg = document.getElementById('replyinput').value;
-    const cat   = document.getElementById('category').value;
+    const subject = document.getElementById('subject').value;
+    const inmsg   = document.getElementById('replyinput').value;
+    const cat     = document.getElementById('category').value;
             if (result.value) {
              $.ajax({
                type: 'POST',
-               url: "ok.php",
-               data: {cid: cid, tid: tid, msg: inmsg, uid: uid, co: co, category: cat},
+               url: 'ok.php',
+               data: {cid: cid, tid: tid, subject: subject, msg: inmsg, uid: uid, co: co, category: cat},
                  success: function(data) {
                      if(!$.trim(data)) {
                          swal("Cancelled", "Something is wrong, Please try Again!", "error");
@@ -47,4 +48,5 @@ swal({
         });
         
   }
+
 </script>
