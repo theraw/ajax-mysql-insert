@@ -1,0 +1,50 @@
+<script>
+function Tcreate(keys) {
+    const tid = $("#tid").val();
+    const cid = $("#cid").val();
+    const uid = $("#uid").val();
+    const co  = $("#co").val();
+swal({
+  title: 'Create New Ticket',
+  html: 
+  '<input id="subject" placeholder="Ticket Subject" class="swal2-input">' +
+  '<textarea rows="10" cols="40" id="replyinput"></textarea>' +
+  '<select id="category" class="swal2-input"><option>General Support</option><option>Bug Support</option></select>',
+  showCancelButton: true,
+  confirmButtonText: 'Send',
+  showLoaderOnConfirm: false,
+}).then(function (result) {
+    const inmsg = document.getElementById('replyinput').value;
+    const cat   = document.getElementById('category').value;
+            if (result.value) {
+             $.ajax({
+               type: 'POST',
+               url: "/ticket/create",
+               data: {cid: cid, tid: tid, msg: inmsg, uid: uid, co: co, category: cat},
+                 success: function(data) {
+                     if(!$.trim(data)) {
+                         swal("Cancelled", "Something is wrong, Please try Again!", "error");
+                         console.log("Error!");
+                     } else {
+                         swal({
+                             type: 'success',
+                             title: 'Success!',
+                             text: data,
+                             footer: '<a href>Feel free to take a look @Knowledge base!</a>'
+                         });
+                         console.log(data);
+                         console.log("Success!");
+                   }
+               }
+             })
+            } else if (result.dismiss === swal.DismissReason.close) {
+              swal(
+                'Cancelled',
+                ':)',
+                'error'
+              )
+            }
+        });
+        
+  }
+</script>
