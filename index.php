@@ -3,16 +3,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.29.2/sweetalert2.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     
-
-            <form name='user_form' method='post' action='#'>
-                  <input type='hidden' name='getid' id='getid' value="<?php echo $row['privatekey']; ?>">
-                  <input type='button' class='btn btn-primary' name='Info' value='Info' onclick='cinfo();'>
-            </form>
+ <input type='button' class='btn btn-primary' name='Info' value='Info' onclick='cinfo(<?php echo $row['privatekey']; ?>);'>
     
 
 <script>
-      function cinfo(keys) {
-        var getid = $("#getid").val();
+      function cinfo(privatekey) {
         swal({
           title: 'Jeni i sigurt?', 
           text: "Jeni i sigurt qe doni te shfaqni infot e klientit?", 
@@ -31,7 +26,7 @@
              $.ajax({
                type: 'POST',
                url: "ok.php",
-               data: {id: getid},
+               data: {id: privatekey},
                  success: function(data) {
                      if(!$.trim(data)) {
                          swal("Cancelled", "Dicka esht gabim, Provoni Perseri!", "error");
